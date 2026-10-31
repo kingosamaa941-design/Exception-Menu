@@ -326,7 +326,12 @@
 <div id="customLightbox" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.85); align-items:center; justify-content:center; cursor:zoom-out;">
   <span style="position:absolute; top:20px; right:30px; color:#fff; font-size:40px; font-weight:bold; cursor:pointer; user-select:none;">&times;</span>
   <img id="lightboxImg" src="" style="max-width:90%; max-height:90%; border-radius:8px; box-shadow:0 4px 20px rgba(0,0,0,0.5); cursor:default; transform:scale(0.9); transition:transform 0.2s ease-in-out;">
-</div>
+  <!-- شريط أدوات التحكم في الأعلى -->
+  <div style="position:absolute; top:20px; left:50%; transform:translateX(-50%); display:flex; gap:15px; background:rgba(255,255,255,0.15); padding:8px 15px; border-radius:30px; backdrop-filter:blur(5px); z-index:10000;">
+    <button onclick="flipImage('horizontal', event)" style="background:none; border:none; color:#fff; font-size:18px; cursor:pointer; padding:5px 10px;">↔️ عكس أفقي</button>
+    <button onclick="flipImage('vertical', event)" style="background:none; border:none; color:#fff; font-size:18px; cursor:pointer; padding:5px 10px;">↕️ عكس رأسي</button>
+    <button onclick="rotateImage(event)" style="background:none; border:none; color:#fff; font-size:18px; cursor:pointer; padding:5px 10px;">🔄 تدوير</button>
+  </div>
 
 <script>
   // تفعيل التكبير لجميع الصور في الصفحة تلقائياً
@@ -337,6 +342,7 @@
       const lightbox = document.getElementById('customLightbox');
       const lightboxImg = document.getElementById('lightboxImg');
       lightboxImg.src = this.src;
+      currentRotation = 0; scaleX = 1; scaleY = 1; updateImageTransform();
       lightbox.style.display = 'flex';
       setTimeout(() => { lightboxImg.style.transform = 'scale(1)'; }, 10);
     });
@@ -348,4 +354,21 @@
     lightboxImg.style.transform = 'scale(0.9)';
     setTimeout(() => { this.style.display = 'none'; }, 150);
   });
+  let currentRotation = 0; let scaleX = 1; let scaleY = 1;
+  function updateImageTransform() {
+    const img = document.getElementById('lightboxImg');
+  img.style.transform = `scale(0.9) rotate(${currentRotation}deg) scaleX(${scaleX}) scaleY(${scaleY})`;
+  }
+  function flipImage(dir, event) {
+    event.stopPropagation();
+    if (dir === 'horizontal') scaleX = scaleX === 1 ? -1 : 1;
+    if (dir === 'vertical') scaleY = scaleY === 1 ? -1 : 1;
+    updateImageTransform();
+  }
+  function rotateImage(event) {
+    event.stopPropagation();
+    currentRotation = (currentRotation + 90) % 360;
+    updateImageTransform();
+  }
+
 </script>
