@@ -357,8 +357,7 @@
   let currentRotation = 0; let scaleX = 1; let scaleY = 1;
   function updateImageTransform() {
     const img = document.getElementById('lightboxImg');
-  img.style.transform = `scale(0.9) rotate(${currentRotation}deg) scaleX(${scaleX}) scaleY(${scaleY})`;
-  }
+img.style.transform = `scale(0.9) rotate(${currentRotation}deg) scaleX(${scaleX}) scaleY(${scaleY})`;
   function flipImage(dir, event) {
     event.stopPropagation();
     if (dir === 'horizontal') scaleX = scaleX === 1 ? -1 : 1;
